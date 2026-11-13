@@ -3,8 +3,6 @@
 **Sinh viên:** Huỳnh Ngọc Khang – 4651050116  
 **Lớp:** CNTT46D
 
-Trong Lab này em làm tiếp chương trình quản lý lịch chiếu ở Chương 6. Qua các bài, em bổ sung khả năng undo cho command, chuyển phần lưu lịch sử vào `CommandProcessor`, rồi để `Program` sử dụng processor đó.
-
 ## Bài 6.15 – Thêm undo cho command
 
 Em mở rộng giao diện `Command` bằng `UndoableCommand`, có thêm phương thức `undo()`. Mỗi lệnh cần nhớ thông tin đủ để đưa chương trình về trạng thái trước đó:
