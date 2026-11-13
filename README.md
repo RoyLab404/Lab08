@@ -1,6 +1,5 @@
 # Lab 08 — Command có thể undo và redo
 
-**Môn:** Thiết kế phần mềm  
 **Sinh viên:** Huỳnh Ngọc Khang — 4651050116  
 **Lớp:** CNTT46D  
 **Phạm vi:** DesignBook, Chương 6, bài 6.15–6.18
