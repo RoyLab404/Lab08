@@ -1,51 +1,44 @@
-# Lab 08 — Command có thể undo và redo
+# Lab 08 – Bài tập 6.15 đến 6.18
 
-**Sinh viên:** Huỳnh Ngọc Khang — 4651050116  
-**Lớp:** CNTT46D  
-**Phạm vi:** DesignBook, Chương 6, bài 6.15–6.18
+**Sinh viên:** Huỳnh Ngọc Khang – 4651050116  
+**Lớp:** CNTT46D
 
-## Mục tiêu
+Trong bài này em làm tiếp mẫu Command ở Chương 6. Các bài 6.15–6.17 có mã tham khảo của DesignBook, em đưa vào project và thêm phần chạy thử. Lời giải bài 6.18 chỉ có sơ đồ, nên em viết thêm các lớp cần thiết theo sơ đồ đó.
 
-Project trình bày tiến trình mở rộng mẫu Command: mỗi lệnh có thể undo, `CommandProcessor` quản lý lịch sử, processor hỗ trợ redo, rồi `Program` ủy quyền lịch sử cho processor được truyền vào constructor.
+## Các phần đã làm
 
-## Mã nguồn theo từng bài
+- **Bài 6.15:** `UndoableCommand` bổ sung `undo()`. `Program3` tạo lệnh thêm, xóa và xóa toàn bộ chương trình. Trong `Exercise15`, em chạy các lệnh rồi undo ngược lại và so sánh trạng thái trước, sau mỗi lần undo.
+- **Bài 6.16:** `CommandProcessor` chạy lệnh và lưu lại để có thể undo lệnh gần nhất. Client gọi processor, không thao tác trực tiếp với danh sách lệnh.
+- **Bài 6.17:** `CommandProcessor2` có thêm danh sách các lệnh đã undo. `redoLast()` lấy lệnh mới nhất trong danh sách đó và chạy lại.
+- **Bài 6.18:** `Program` nhận `CommandProcessor` qua constructor. Khi gọi `add()`, `remove()` hoặc `clear()`, Program tạo command rồi chuyển cho processor. `BasicCommandProcessor` giữ lịch sử và thực hiện undo/redo. Phần này em tự bổ sung vì trang lời giải chỉ đưa sơ đồ, không có code.
 
-| Bài | Mã nguồn | Cách giải |
-|---|---|---|
-| 6.15 | `ex15/Program3.java`, `ex15/UndoableCommand.java`, `ex15/Exercise15.java` | Lệnh Add, Remove và Clear ghi lại dữ liệu cần thiết để undo. Demo thực thi chuỗi thao tác rồi hoàn tác ngược lại, so sánh trạng thái sau từng bước. |
-| 6.16 | `ex16/CommandProcessor.java`, `ex16/Exercise16.java` | Processor chạy lệnh và giữ lịch sử; client chỉ gọi processor thay vì đọc cấu trúc lịch sử nội bộ. |
-| 6.17 | `ex17/CommandProcessor2.java`, `ex17/Exercise17.java` | Thêm danh sách lệnh đã undo; redo lấy lệnh gần nhất và thực thi lại. |
-| 6.18 | `ex18/Program.java`, `ex18/CommandProcessor.java`, `ex18/BasicCommandProcessor.java`, `ex18/Exercise18.java` | `Program` giữ thao tác add/remove/clear và tạo command; processor riêng quản lý undo/redo. `Program` nhận interface `CommandProcessor` qua constructor để tránh gom quản lý lịch chiếu và lịch sử vào một lớp. |
+Các lớp được chia vào package `ex15`, `ex16`, `ex17` và `ex18` để có thể giữ các phiên bản processor của từng bài trong cùng một project Eclipse. `Show`, `Movie` và `Command` dùng chung trong package `designbook.solutions6`.
 
-`Show`, `Movie` và `Command` được đặt trong package gốc để các phần bài tập dùng chung. `Movie` và `Show` dựa trên mã đi kèm giáo trình; `Command` được tách thành file riêng từ phần lời giải bài 6.14 để Eclipse biên dịch độc lập.
-
-## Import vào Eclipse
+## Mở project trong Eclipse
 
 1. Chọn **File → Import → General → Existing Projects into Workspace**.
-2. Chọn **Select root directory**, trỏ đến thư mục `Practice/Lab08`.
-3. Chọn project **Lab08**, rồi nhấn **Finish**.
-4. Nếu Eclipse chưa nhận Java 21, vào **Project → Properties → Java Build Path → Libraries**, chọn JRE System Library Java 21.
+2. Chọn thư mục `Practice/Lab08`.
+3. Chọn project **Lab08** rồi nhấn **Finish**.
+4. Project đặt mức Java 21. Nếu Eclipse báo thiếu JRE, chọn Java 21 trong **Project → Properties → Java Build Path → Libraries**.
 
-Project đã có `.project`, `.classpath` và cấu hình compiler mức Java 21. Mã mẫu bài 6.16–6.17 dùng `List.removeLast()`, vì vậy cần Java 21 trở lên.
+## Chạy chương trình minh họa
 
-## Chạy từng bài
-
-Trong Package Explorer, mở lớp tương ứng và chọn **Run As → Java Application**:
+Mở từng lớp dưới đây, nhấn chuột phải rồi chọn **Run As → Java Application**:
 
 - `designbook.solutions6.ex15.Exercise15`
 - `designbook.solutions6.ex16.Exercise16`
 - `designbook.solutions6.ex17.Exercise17`
 - `designbook.solutions6.ex18.Exercise18`
 
-Mỗi demo in thông báo hoàn tất; nếu trạng thái sau undo/redo không đúng, chương trình ném `IllegalStateException`.
+Mỗi lớp in kết quả ở Console. Nếu undo hoặc redo cho trạng thái không đúng, chương trình sẽ báo lỗi.
 
-## Nguồn và phần bổ sung
+## Tài liệu đã tham khảo
 
-- [Lời giải DesignBook bài 6.14](https://codesample.info/samples/designbook/solutions6/Exercise14.html) — giao diện `Command` và cấu trúc `Program2` nền.
-- [Lời giải DesignBook bài 6.15](https://codesample.info/samples/designbook/solutions6/Exercise15.html) — `UndoableCommand` và `Program3`; demo trong project bổ sung kiểm tra phục hồi sau từng lần undo theo yêu cầu đề bài.
-- [Lời giải DesignBook bài 6.16](https://codesample.info/samples/designbook/solutions6/Exercise16.html) — `CommandProcessor`.
-- [Lời giải DesignBook bài 6.17](https://codesample.info/samples/designbook/solutions6/Exercise17.html) — `CommandProcessor2` có redo.
-- [Lời giải DesignBook bài 6.18](https://codesample.info/samples/designbook/solutions6/Exercise18.html) — chỉ có sơ đồ thiết kế, không có mã cài đặt. Các lớp trong `ex18` là phần bổ sung theo sơ đồ: processor được trừu tượng hóa thành interface, `Program` nhận processor qua constructor và ủy quyền thao tác undo/redo.
-- [Mã mẫu `Show` và `Movie` của giáo trình](https://github.com/prmr/DesignBook/tree/master/exercise-code/chapter6).
+- [DesignBook, lời giải bài 6.14](https://codesample.info/samples/designbook/solutions6/Exercise14.html)
+- [DesignBook, lời giải bài 6.15](https://codesample.info/samples/designbook/solutions6/Exercise15.html)
+- [DesignBook, lời giải bài 6.16](https://codesample.info/samples/designbook/solutions6/Exercise16.html)
+- [DesignBook, lời giải bài 6.17](https://codesample.info/samples/designbook/solutions6/Exercise17.html)
+- [DesignBook, lời giải bài 6.18](https://codesample.info/samples/designbook/solutions6/Exercise18.html)
+- [Mã mẫu `Show` và `Movie` đi kèm giáo trình](https://github.com/prmr/DesignBook/tree/master/exercise-code/chapter6)
 
-Mã nguồn DesignBook giữ thông tin tác giả và giấy phép trong các file có nội dung lấy từ giáo trình. Phần cài đặt bổ sung cho bài 6.18 được ghi rõ ở trên.
+Mã mẫu được giữ thông tin tác giả và giấy phép trong các file nguồn tương ứng.
